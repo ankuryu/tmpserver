@@ -7,7 +7,7 @@ const sqlite3  = require("sqlite3").verbose() ;
 
 
 const app = express();
-let bpth = '';
+/*let bpth = '';
 console.log('Checking for db3 files ...');
 if(fs.existsSync('../db/tmp.db3')){
 	pth='../db/tmp.db3' ;
@@ -16,7 +16,7 @@ if(fs.existsSync('../db/tmp.db3')){
 	 console.log('db3 files not found... Exiting !!! ');
 	 process.exit(-1);
  }
-
+*/
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -29,19 +29,21 @@ process.on('unhandledRejection', (reason, p) => {
 app.listen(8000 , function() {
  console.log( "Listening on port 3000");
 });
- pr1 = [] ;
+// ==================================================
 
-app.get('/pmcstk/mfg.json',(req,res)=> {
+ pr1 = [] ; // pr1 is the array to contain parameters
+
+app.get('addr/api/lst10',(req,res)=> {
+	let pth = '../db/tmp.db3';
 	console.log("sTarted");
 	console.log("checking for db");
-//	console.log(fs.existSync('../crud64/db/stkcsm17.db3'));
 		console.log("finished");
  let db = new sqlite3.Database(pth,(err)=>{ 
    if(err){
 	   console.log(err);
    }
 	console.log("Connected to the in Sqlite database");
-	let  sqlsel= "select distinct mfg from stkcsm17 order by mfg  ; " ;
+	let  sqlsel= "; " ;
 	 console.log(sqlsel);
 	 console.log(pr1);
 	  db.all(sqlsel,(err,rows)=> {
