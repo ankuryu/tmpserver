@@ -1,0 +1,21 @@
+{
+  "name": "tmpserver",
+  "version": "1.0.0",
+  "description": "temp api server for serving various data to test frontends",
+  "main": "tmpserver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon tmpserver.js"
+  },
+  "author": "Sunil  Gandhi",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "*",
+    "cors": "*",
+    "express": "*",
+    "sqlite3": "*"
+  },
+  "devDependencies": {
+    "nodemon": "*"
+  }
+}
