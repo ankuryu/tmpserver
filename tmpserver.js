@@ -26,12 +26,22 @@ process.on('unhandledRejection', (reason, p) => {
   // application specific logging, throwing an error, or other logic here
 });
 
-app.listen(8000 , function() {
+app.listen(3000 , function() {
  console.log( "Listening on port 3000");
 });
 // ==================================================
 
  pr1 = [] ; // pr1 is the array to contain parameters
+app.get('/addr/api/mktbl',(req,res)=>{
+  let pth = '../db/tmp.db3'
+	let db = new sqlite3.Database(pth,(err)=>{
+		if(err){
+			console.log(err);	
+		}
+		let sqlmk = 'Create table tbl1 if not exists '
+	})
+})
+
 
 app.get('addr/api/lst10',(req,res)=> {
 	let pth = '../db/tmp.db3';
