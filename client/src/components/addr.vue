@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
 
 <div id="app">
   <h3 class="hdgout">
@@ -58,14 +58,7 @@
 <script>
 export default {
   name: 'addr',
-  props: {
-    msg: String
-  }
-
-
-const vu = new Vue({
-  el: "#app",
-	data: function(){
+  data: function(){
 		return{
   sel:0,
   dsblflg : 1,
@@ -166,7 +159,6 @@ const vu = new Vue({
    axios.get('http://localhost:3000/addr/api/lst10').then(function(res){}).catch(function(err){})
   }
   }
-})
 }
 </script>
 

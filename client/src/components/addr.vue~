@@ -58,14 +58,8 @@
 <script>
 export default {
   name: 'addr',
-  props: {
-    msg: String
-  }
-
-
-const vu = new Vue({
-  el: "#app",
-  data: {
+  data: function(){
+		return{
   sel:0,
   dsblflg : 1,
   opbtflg : 0,
@@ -79,7 +73,7 @@ const vu = new Vue({
   country:""
   },
     recs: [ ]
-  },
+		}},
   methods: {
   inirec : function() {
    let ptr = this.rec ;
@@ -165,7 +159,6 @@ const vu = new Vue({
    axios.get('http://localhost:3000/addr/api/lst10').then(function(res){}).catch(function(err){})
   }
   }
-})
 }
 </script>
 
