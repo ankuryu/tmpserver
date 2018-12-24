@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
 
 <div id="app">
   <h3 class="hdgout">

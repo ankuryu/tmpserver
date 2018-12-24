@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import Axios from 'axios';
 export default {
   name: 'addr',
   data: function(){
@@ -147,7 +148,7 @@ export default {
    console.log(mx)
    for (i= 0; i<mx ;i++) {
     tmprec = this.recs[i]
-    axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
+    Axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
      console.log("Added record ",i," Successfully ")
     }).catch((err)=>{
     console.log("Error in inserting Rec @ ",i,err);
@@ -156,7 +157,7 @@ export default {
   }, // end of putrecs method
   getrecs: function(){
    console.log("Getting..")
-   axios.get('http://localhost:3000/addr/api/lst10').then(function(res){}).catch(function(err){})
+   Axios.get('http://localhost:3000/addr/api/lst10').then(function(res){}).catch(function(err){})
   }
   }
 }
