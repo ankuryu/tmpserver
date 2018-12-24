@@ -65,7 +65,8 @@ export default {
 
 const vu = new Vue({
   el: "#app",
-  data: {
+	data: function(){
+		return{
   sel:0,
   dsblflg : 1,
   opbtflg : 0,
@@ -79,7 +80,7 @@ const vu = new Vue({
   country:""
   },
     recs: [ ]
-  },
+		}},
   methods: {
   inirec : function() {
    let ptr = this.rec ;
