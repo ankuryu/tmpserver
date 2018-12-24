@@ -146,8 +146,9 @@ export default {
    console.log("Putting..")
    let mx = this.recs.length ;
    console.log(mx)
+	  let i = 0;
    for (i= 0; i<mx ;i++) {
-    tmprec = this.recs[i]
+    let tmprec = this.recs[i]
     Axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
      console.log("Added record ",i," Successfully ")
     }).catch((err)=>{
@@ -157,7 +158,7 @@ export default {
   }, // end of putrecs method
   getrecs: function(){
    console.log("Getting..")
-   Axios.get('http://localhost:3000/addr/api/lst10').then(function(res){}).catch(function(err){})
+	  Axios.get('http://localhost:3000/addr/api/lst10').then((res)=>{console.log("Got records ")}).catch((err)=>{console.log("Error in getting records ",err) })
   }
   }
 }
