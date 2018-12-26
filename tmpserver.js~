@@ -73,6 +73,7 @@ app.post('/addr/api/add.json', (req,res)=>{
 									pr2.push(req.params.city);
 									pr2.push(req.params.pin);
 									pr2.push(req.params.country);
+		console.log(" Parameter data ", req);
   db.run(sqlins,pr2,(err)=>{  
 	 if(err){
 					 console.log("Error in inserting Data ",sqlins,err);
@@ -87,8 +88,8 @@ app.post('/addr/api/add.json', (req,res)=>{
 			}
 		});
 
+  })
 })
-
 
 
 app.get('addr/api/lst10',(req,res)=> {

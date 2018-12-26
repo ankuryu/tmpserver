@@ -66,13 +66,14 @@ app.post('/addr/api/add.json', (req,res)=>{
 		}
 		let sqlins = 'insert into tbl1 (fname,lname,mbl,street,city,pin,country) values (?,?,?,?,?,?,?)';
 					let pr2 = []
-					pr2.push(req.params.fname) ;
-									pr2.push(req.params.lname);
-									pr2.push(req.params.mbl);
-									pr2.push(req.params.street);
-									pr2.push(req.params.city);
-									pr2.push(req.params.pin);
-									pr2.push(req.params.country);
+					pr2.push(req.body.fname) ;
+									pr2.push(req.body.lname);
+									pr2.push(req.body.mbl);
+									pr2.push(req.body.street);
+									pr2.push(req.body.city);
+									pr2.push(req.body.pin);
+									pr2.push(req.body.country);
+		console.log(" Parameter data ", req.body);
   db.run(sqlins,pr2,(err)=>{  
 	 if(err){
 					 console.log("Error in inserting Data ",sqlins,err);
@@ -126,12 +127,12 @@ app.get('addr/api/lst10',(req,res)=> {
 // now for list of icode for the desired mfg set the route
 app.get('/pmcstk/icode.json/:mfg',(req,res)=> {
 	console.log("sTarted for icode");
-	console.log( req.params.mfg);
-	console.log("Manufac : " + req.params.mfg);
+	console.log( req.body.mfg);
+	console.log("Manufac : " + req.body.mfg);
 	console.log("checking for db");
 		console.log("finished");
-//	pr1.push(req.params.mfg) ; // pass on the mfg for which icode desired
-        pr2 =[req.params.mfg] ;
+//	pr1.push(req.body.mfg) ; // pass on the mfg for which icode desired
+        pr2 =[req.body.mfg] ;
  let db = new sqlite3.Database(pth,(err)=>{ 
    if(err){
 	   console.log(err);
@@ -139,7 +140,7 @@ app.get('/pmcstk/icode.json/:mfg',(req,res)=> {
 	console.log("Connected to the in Sqlite database");
 
 	console.log("oh",pr2);
-	// pr1.push(req.params.mfg) ;
+	// pr1.push(req.body.mfg) ;
 	let  sqlsel= "select distinct icode from stkcsm17 where mfg = ? order by icode; " ;
 	  db.all(sqlsel ,pr2,(err,rows)=> {
 		if(err) {
@@ -153,11 +154,11 @@ app.get('/pmcstk/icode.json/:mfg',(req,res)=> {
 	db.close();
 	pr1.pop() ;
 	});
-// for list of asize,qty,loc,dt and page for mfg,icode params given set the route and processing
+// for list of asize,qty,loc,dt and page for mfg,icode body given set the route and processing
 app.get('/pmcstk/qty.json/:mfg/:icode',(req,res)=> {
 	console.log("sTarted for icode");
 	console.log("checking for db");
-	pr3=[req.params.mfg,req.params.icode];
+	pr3=[req.body.mfg,req.body.icode];
 //	console.log(fs.existSync('../crud64/db/stkcsm17.db3'));
 		console.log("finished");
  let db = new sqlite3.Database(pth,(err)=>{ 
@@ -188,7 +189,7 @@ app.get('/pmcpri/lcode.json/:lc',(req,res)=> {
   dpth = bpth + 'ldrpri18.db3' ;
 	console.log('Getting prices with Lc');
 	sqlstr = 'Select lcode,icode,"mm",asize,pri,mrp from ldr2018all where lcode = ? ;' ;
-	apar = [req.params.lc] ;
+	apar = [req.body.lc] ;
 	if(req.param.lc == "" ){
 		apar = [];
 		res.json([]);
@@ -213,7 +214,7 @@ app.get('/pmcpri/icode.json/:ic',(req,res)=> {
 		res.json([]);
 		res.end();
 	} else {
-	apar = [req.params.ic] ;
+	apar = [req.body.ic] ;
 	console.log('param',apar)
         ftch_sqldata(db,dpth,sqlstr,apar).then((rslt)=>{
 		res.json(rslt)
@@ -303,15 +304,15 @@ const clos_db =  function(db) {
 };
  // function to query db database using query and parameters, returns a promise for async await
 
-function qry_all(db,query, params) {
+function qry_all(db,query, body) {
 		 return new Promise((resolve, reject)=> {
 			 //resolve({name:"Varnil"});
 			 
-			// if(params == undefined) params=[]
-			 console.log('In qry_all Param3',params);
-			 console.log('db ',db,'Query : ',query, ' Params ',params);
+			// if(body == undefined) body=[]
+			 console.log('In qry_all Param3',body);
+			 console.log('db ',db,'Query : ',query, ' Params ',body);
 			 debugger;
-		 	 db.all(query, params, (err, rows)=>{
+		 	 db.all(query, body, (err, rows)=>{
 				 //console.log(rows);
 					 if(err) reject("Read error: " + err.message)
 					 else resolve(rows);

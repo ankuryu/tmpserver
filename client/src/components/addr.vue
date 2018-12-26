@@ -147,8 +147,9 @@ export default {
    let mx = this.recs.length ;
    console.log(mx)
 	  let i = 0;
-   for (i= 0; i<mx ;i++) {
+   for (i = 0; i < mx ; i++) {
     let tmprec = this.recs[i]
+	   console.log(' data ', tmprec);
     Axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
      console.log("Added record ",i," Successfully ")
     }).catch((err)=>{
