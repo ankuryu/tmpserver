@@ -134,45 +134,69 @@ export default {
    this.opbtflg = 1 ;
    
   },
-  edirec: function(){
+  edirec: function(aid){
    console.log("Editing..")
    this.dsblflg = 0 ;
    this.opbtflg = 1 ;
 
   },
-  delrec: function(){
+  delrec: function(aid){
    console.log("Deleting..")
+   tmprec = recs[aid];
+   if (tmprec.id == -1){
+     // simply delete in array
+   } else {
+     // delete it from the database also
+   }
   },
-  putrec :  function(idx2){
-    let tmprec = this.recs[idx2]
-	   console.log(' data ', tmprec);
+  putrec :  function(tmprec){
+     console.log(' data ', tmprec);
+     if(tmprec.id == -1){
     Axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
-     console.log("Added record ",idx2," Successfully ")
+     console.log("Added record ",aid," Successfully ")
     }).catch((err)=>{
-    console.log("Error in inserting Rec @ ",idx2,err);
+    console.log("Error in inserting Rec @ ",aid,err);
     }) // catch loop ends here
+     }else {
+       Axios.put('http://localhost:3000/addr/api/upd.json/'+sid)
+       .then(()=>{
+
+       })
+       .catch(()=>{
+
+       })
+     }
  
   },
-  getrec : function(){
-   console.log("Getting..")
-    Axios.get('http://localhost:3000/addr/api/rec/:id')
-    .then((res)=>{console.log("Got record ",id )
+  getrec : function(rid){
+    // rid is the record id as integer
+    let srid = string(rid);
+   console.log("Getting a single rec with id ."+srid )
+    Axios.get('http://localhost:3000/addr/api/rec/'+srid)
+    .then((res)=>{console.log("Got record ",srid )
+      return res ;
       })
-    .catch((err)=>{console.log("Error in getting record ",id ,err) })
+    .catch((err)=>{console.log("Error in getting record ",srid ,err) })
   },
   putrecs: function(){
-   console.log("Putting..")
+    // puts /updates the  records in the array to database
+    console.log("Putting..")
    let mx = this.recs.length ;
    console.log(mx)
 	  let i = 0;
    for (i = 0; i < mx ; i++) {
-     this.putrec(i);
+     this.putrec(this.recs[i]);
   } // for loop ends here
   }, // end of putrecs method
   getrecs: function(){
-  }
-  }
-}
+    // gets a record set  from database
+    Axios.get('http://localhost:3000/addr/api/recset')
+    .then((res)=>{console.log("Got record ",id )
+      })
+    .catch((err)=>{console.log("Error in getting record ",id ,err) })
+    }
+  } // end of methods
+}  // end of export default
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
