@@ -90,16 +90,15 @@ export default {
   savit:function(){
   //debugger ;
     let idx = this.rec.id ;
+    let  nx = 0 ;
     if (idx == -1 ){
       this.recs.push({}) ;
-      let nx = this.recs.length - 1 ;
-
+      nx = this.recs.length - 1 ;
     }
     this.trsftoar(nx)   
+//  console.log(nx,this.recs,this.rec);
     this.dsblflg = 1 ;
     this.opbtflg = 0 ;
-    
-
   },
   cancit:function(){},
   trsftoar: function(idx){
@@ -132,13 +131,11 @@ export default {
    this.inirec();
    this.dsblflg = 0 ;
    this.opbtflg = 1 ;
-   
   },
   edirec: function(aid){
    console.log("Editing..")
    this.dsblflg = 0 ;
    this.opbtflg = 1 ;
-
   },
   delrec: function(aid){
    console.log("Deleting..")
