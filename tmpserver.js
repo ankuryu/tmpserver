@@ -73,7 +73,6 @@ app.post('/addr/api/add.json', (req,res)=>{
 									pr2.push(req.body.city);
 									pr2.push(req.body.pin);
 									pr2.push(req.body.country);
-		console.log(" Parameter data ", req.body);
   db.run(sqlins,pr2,(err)=>{  
 	 if(err){
 					 console.log("Error in inserting Data ",sqlins,err);
