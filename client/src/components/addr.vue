@@ -78,7 +78,7 @@ export default {
   methods: {
   inirec : function() {
    let ptr = this.rec ;
-   ptr.id = 0;
+   ptr.id = -1 ;
    ptr.fname = '';
    ptr.lname = "";
    ptr.mbl = "";
@@ -90,14 +90,15 @@ export default {
   savit:function(){
   //debugger ;
     let idx = this.rec.id ;
-    if (idx == 0){
+    if (idx == -1 ){
       this.recs.push({}) ;
-      idx = this.recs.length - 1 ;
-      this.rec.id = idx ;
+      let nx = this.recs.length - 1 ;
+
     }
-    this.trsftoar(idx)   
+    this.trsftoar(nx)   
     this.dsblflg = 1 ;
     this.opbtflg = 0 ;
+    
 
   },
   cancit:function(){},
@@ -142,24 +143,33 @@ export default {
   delrec: function(){
    console.log("Deleting..")
   },
+  putrec :  function(idx2){
+    let tmprec = this.recs[idx2]
+	   console.log(' data ', tmprec);
+    Axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
+     console.log("Added record ",idx2," Successfully ")
+    }).catch((err)=>{
+    console.log("Error in inserting Rec @ ",idx2,err);
+    }) // catch loop ends here
+ 
+  },
+  getrec : function(){
+   console.log("Getting..")
+    Axios.get('http://localhost:3000/addr/api/rec/:id')
+    .then((res)=>{console.log("Got record ",id )
+      })
+    .catch((err)=>{console.log("Error in getting record ",id ,err) })
+  },
   putrecs: function(){
    console.log("Putting..")
    let mx = this.recs.length ;
    console.log(mx)
 	  let i = 0;
    for (i = 0; i < mx ; i++) {
-    let tmprec = this.recs[i]
-	   console.log(' data ', tmprec);
-    Axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
-     console.log("Added record ",i," Successfully ")
-    }).catch((err)=>{
-    console.log("Error in inserting Rec @ ",i,err);
-    }) // catch loop ends here
-   } // for loop ends here
+     this.putrec(i);
+  } // for loop ends here
   }, // end of putrecs method
   getrecs: function(){
-   console.log("Getting..")
-	  Axios.get('http://localhost:3000/addr/api/lst10').then((res)=>{console.log("Got records ")}).catch((err)=>{console.log("Error in getting records ",err) })
   }
   }
 }
