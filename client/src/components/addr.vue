@@ -149,21 +149,33 @@ export default {
   putrec :  function(tmprec){
      console.log(' data ', tmprec);
      if(tmprec.id == -1){
+       let nwid = this.getmxid()+1 ;
+       tmprec.id = newid ;
     Axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
      console.log("Added record ",aid," Successfully ")
     }).catch((err)=>{
     console.log("Error in inserting Rec @ ",aid,err);
     }) // catch loop ends here
      }else {
-       Axios.put('http://localhost:3000/addr/api/upd.json/'+sid)
+       let sid = tmprec.id.toString ;
+       Axios.put('http://localhost:3000/addr/api/upd.json/'+sid,tmprec)
        .then(()=>{
 
        })
-       .catch(()=>{
-
+       .catch((err)=>{
+         console.log("Error in updating Record @",sid)
        })
      }
  
+  },
+  getmxid: function(){
+    // gets the maximum id in the database to fill in the next id into the fresh record
+   console.log("Getting Max ID")
+    Axios.get('http://localhost:3000/addr/api/mxid')
+    .then((res)=>{console.log("Max Id",res.mxid)
+      return res.mxid ;
+      })
+    .catch((err)=>{console.log("Error in Max id" ,err) })
   },
   getrec : function(rid){
     // rid is the record id as integer

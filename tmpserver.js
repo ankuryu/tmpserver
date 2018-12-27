@@ -32,18 +32,58 @@ app.listen(3000 , function() {
 // ==================================================
 
  pr1 = [] ; // pr1 is the array to contain parameters
+
+
+app.put('/addr/api/upd/',(req,res)=>{
+  let pth = './db/tmp.db3'
+	let db = new sqlite3.Database(pth,(err)=>{
+		if(err){
+			console.log(err);	
+		}
+	});
+	let sqlupd = `Update tbl1 
+		 set fname = $fname ,
+		 set lname = $lname ,
+		 set mbl = $mbl,
+		 set street = $street ,
+		 set pin = $pin ,
+		 set country = $country 
+		 where id = $id ;`;
+		 let updobj = {} ;
+		  updobj.$fname = req.body.fname 
+		  updobj.$lname =  req.body.lname 
+		  updobj.$mbl =  req.body.mbl
+		  updobj.$street =  req.body.street
+		  updobj.$pin =  req.body.pin
+		  updobj.$country =  req.body.country
+		  updobj.$id =  req.body.id
+	db.run(sqlupd,updobj,(err)=> {
+		if(err) {
+			return console.error(err.message);
+		}
+		  res.end();
+	}).close((err)=>{
+	 	if(err){
+		 	console.log("Error in closing Database ",err)
+		}else{
+			 console.log("Database Closed Succecfully")
+		}
+	})
+})
+
 app.get('/addr/api/mxid',(req,res)=>{
   let pth = './db/tmp.db3'
 	let db = new sqlite3.Database(pth,(err)=>{
 		if(err){
 			console.log(err);	
 		}
-		let sqlmx = 'select max(id) from tbl1 ;';
-	  db.all(sqlmx,(err,rows)=> {
+	});
+		let sqlmx = 'select max(id) as mxid from tbl1 ;';
+	  db.get(sqlmx,(err,row)=> {
 		if(err) {
 			return console.error(err.message);
 		}
-		res.json(rows);
+		res.json(row);
 		  res.end();
 	  }).close((err)=>{
 		  if(err){
@@ -52,6 +92,8 @@ app.get('/addr/api/mxid',(req,res)=>{
 			 console.log("Database Closed Succecfully")
 			}
 })
+
+	})
 app.get('/addr/api/mktbl',(req,res)=>{
   let pth = './db/tmp.db3'
 	let db = new sqlite3.Database(pth,(err)=>{
