@@ -32,7 +32,26 @@ app.listen(3000 , function() {
 // ==================================================
 
  pr1 = [] ; // pr1 is the array to contain parameters
-
+app.get('/addr/api/mxid',(req,res)=>{
+  let pth = './db/tmp.db3'
+	let db = new sqlite3.Database(pth,(err)=>{
+		if(err){
+			console.log(err);	
+		}
+		let sqlmx = 'select max(id) from tbl1 ;';
+	  db.all(sqlmx,(err,rows)=> {
+		if(err) {
+			return console.error(err.message);
+		}
+		res.json(rows);
+		  res.end();
+	  }).close((err)=>{
+		  if(err){
+			 console.log("Error in closing Database ",err)
+			}else{
+			 console.log("Database Closed Succecfully")
+			}
+})
 app.get('/addr/api/mktbl',(req,res)=>{
   let pth = './db/tmp.db3'
 	let db = new sqlite3.Database(pth,(err)=>{
@@ -61,31 +80,31 @@ app.get('/addr/api/mktbl',(req,res)=>{
 app.post('/addr/api/add.json', (req,res)=>{
   let pth = './db/tmp.db3'
 	let db = new sqlite3.Database(pth,(err)=>{
-		if(err){
-			console.log("Error Opening Database ",pth,err);	
-		}
-		let sqlins = 'insert into tbl1 (fname,lname,mbl,street,city,pin,country) values (?,?,?,?,?,?,?)';
-					let pr2 = []
-					pr2.push(req.body.fname) ;
-									pr2.push(req.body.lname);
-									pr2.push(req.body.mbl);
-									pr2.push(req.body.street);
-									pr2.push(req.body.city);
-									pr2.push(req.body.pin);
-									pr2.push(req.body.country);
+	if(err){
+		console.log("Error Opening Database ",pth,err);	
+	}
+	let sqlins = 'insert into tbl1 (fname,lname,mbl,street,city,pin,country) values (?,?,?,?,?,?,?)';
+	let pr2 = []
+	pr2.push(req.body.fname) ;
+	pr2.push(req.body.lname);
+	pr2.push(req.body.mbl);
+	pr2.push(req.body.street);
+	pr2.push(req.body.city);
+	pr2.push(req.body.pin);
+	pr2.push(req.body.country);
   db.run(sqlins,pr2,(err)=>{  
-	 if(err){
-					 console.log("Error in inserting Data ",sqlins,err);
-	 }else {
-					 console.log("Data inserted succesfully");
-	 }
+	if(err){
+		 console.log("Error in inserting Data ",sqlins,err);
+	}else {
+		 console.log("Data inserted succesfully");
+	}
 	}).close((err)=>{
-		  if(err){
-			 console.log("Error in closing Database ",err)
-			}else{
-			 console.log("Database Closed Succecfully")
-			}
-		});
+	if(err){
+		console.log("Error in closing Database ",err)
+	}else{
+		 console.log("Database Closed Succecfully")
+	}
+	});
 
   })
 })
