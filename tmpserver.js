@@ -41,14 +41,7 @@ app.put('/addr/api/upd/',(req,res)=>{
 			console.log(err);	
 		}
 	});
-	let sqlupd = `Update tbl1 
-		 set fname = $fname ,
-		 set lname = $lname ,
-		 set mbl = $mbl,
-		 set street = $street ,
-		 set pin = $pin ,
-		 set country = $country 
-		 where id = $id ;`;
+	let sqlupd = `Update tbl1 set fname = $fname ,lname = $lname ,mbl = $mbl,street = $street ,pin = $pin ,country = $country where id = $id ;`;
 		 let updobj = {} ;
 		  updobj.$fname = req.body.fname 
 		  updobj.$lname =  req.body.lname 
@@ -56,7 +49,8 @@ app.put('/addr/api/upd/',(req,res)=>{
 		  updobj.$street =  req.body.street
 		  updobj.$pin =  req.body.pin
 		  updobj.$country =  req.body.country
-		  updobj.$id =  req.body.id
+			updobj.$id =  req.body.id
+			console.log("obj",updobj," sqlupd ",sqlupd)
 	db.run(sqlupd,updobj,(err)=> {
 		if(err) {
 			return console.error(err.message);
@@ -162,10 +156,11 @@ app.get('addr/api/lst10',(req,res)=> {
 	   console.log(err);
    }
 	console.log("Connected to the in Sqlite database");
-	let  sqlsel= "; " ;
+	let  sqlsel= " select id,fname,lname,mbl,street,city, pin ,country from tbl1 limit 10 order by id descending ; " ;
 	 console.log(sqlsel);
 	 console.log(pr1);
 	  db.all(sqlsel,(err,rows)=> {
+			console.log(rows)
 		if(err) {
 			return console.error(err.message);
 		}
