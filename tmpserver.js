@@ -88,6 +88,7 @@ app.get('/addr/api/mxid',(req,res)=>{
 })
 
 	})
+
 app.get('/addr/api/mktbl',(req,res)=>{
   let pth = './db/tmp.db3'
 	let db = new sqlite3.Database(pth,(err)=>{
@@ -108,7 +109,6 @@ app.get('/addr/api/mktbl',(req,res)=>{
 			 console.log("Database Closed Succecfully")
 			}
 		});
-
 	})
 })
 
@@ -119,6 +119,7 @@ app.post('/addr/api/add.json', (req,res)=>{
 	if(err){
 		console.log("Error Opening Database ",pth,err);	
 	}
+})
 	let sqlins = 'insert into tbl1 (fname,lname,mbl,street,city,pin,country) values (?,?,?,?,?,?,?)';
 	let pr2 = []
 	pr2.push(req.body.fname) ;
@@ -143,11 +144,10 @@ app.post('/addr/api/add.json', (req,res)=>{
 	});
 
   })
-})
 
 
-app.get('addr/api/lst10',(req,res)=> {
-	let pth = '../db/tmp.db3';
+app.get('/addr/api/lst10',(req,res)=> {
+	let pth = './db/tmp.db3';
 	console.log("sTarted");
 	console.log("checking for db");
 		console.log("finished");
@@ -156,7 +156,7 @@ app.get('addr/api/lst10',(req,res)=> {
 	   console.log(err);
    }
 	console.log("Connected to the in Sqlite database");
-	let  sqlsel= " select id,fname,lname,mbl,street,city, pin ,country from tbl1 limit 10 order by id descending ; " ;
+	let  sqlsel= " select id,fname,lname,mbl,street,city, pin ,country from tbl1 order by id desc limit 10; " ;
 	 console.log(sqlsel);
 	 console.log(pr1);
 	  db.all(sqlsel,(err,rows)=> {
@@ -172,7 +172,23 @@ app.get('addr/api/lst10',(req,res)=> {
 	db.close();
 	});
 
-				
+app.delete('/addr/api/del',(req,res)=> {
+	let pth = './db/tmp.db3';
+ let db = new sqlite3.Database(pth,(err)=>{ 
+   if(err){
+	   console.log(err);
+   }
+	console.log("Connected to the in Sqlite database");
+ });
+	let  sqldel= " delete from tbl1 where id == $id ; " ;
+	  db.run(sqldel,(err,rows)=> {
+			console.log(rows)
+		if(err) {
+			return console.error(err.message);
+		}
+		  res.end();
+	  }).close();
+  });
 
 /*
 
