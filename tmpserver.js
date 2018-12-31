@@ -154,7 +154,8 @@ app.get('/addr/api/lst10',(req,res)=> {
  let db = new sqlite3.Database(pth,(err)=>{ 
    if(err){
 	   console.log(err);
-   }
+	 }
+	});
 	console.log("Connected to the in Sqlite database");
 	let  sqlsel= " select id,fname,lname,mbl,street,city, pin ,country from tbl1 order by id desc limit 10; " ;
 	 console.log(sqlsel);
@@ -166,23 +167,23 @@ app.get('/addr/api/lst10',(req,res)=> {
 		}
 		res.json(rows);
 		  res.end();
-	  });
+	  }).close();
 
   });
-	db.close();
-	});
+	
 
-app.delete('/addr/api/del',(req,res)=> {
+app.delete('/addr/api/del/:id',(req,res)=> {
 	let pth = './db/tmp.db3';
+	console.log("Delete path");
  let db = new sqlite3.Database(pth,(err)=>{ 
    if(err){
 	   console.log(err);
    }
 	console.log("Connected to the in Sqlite database");
  });
+  let id = req.params.id ;
 	let  sqldel= " delete from tbl1 where id == $id ; " ;
-	  db.run(sqldel,(err,rows)=> {
-			console.log(rows)
+			db.run(sqldel,{"$id":id},(err)=> {
 		if(err) {
 			return console.error(err.message);
 		}
