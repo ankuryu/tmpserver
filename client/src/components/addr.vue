@@ -74,7 +74,16 @@ export default {
   country:""
   },
     recs: [ ]
-		}},
+    }},
+    created: function() {
+      Axios.get('http://localhost:3000/addr/api/lst10')
+      .then((resp)=>{
+        this.recs = resp.data ;
+       })
+      .catch((err)=>{
+        console.log( err );
+      })
+    },
   methods: {
   inirec : function() {
    let ptr = this.rec ;
