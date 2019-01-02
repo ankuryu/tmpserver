@@ -79,8 +79,8 @@ export default {
       Axios.get('http://localhost:3000/addr/api/lst10')
       .then((resp)=>{
         this.recs = resp.data ;
-        this.sel = 1 ;
-        this.trsffrar(1) ;
+        this.sel = 0 ;
+        this.trsffrar(this.sel) ;
        })
       .catch((err)=>{
         console.log( err );
@@ -105,7 +105,7 @@ export default {
     if (idx == -1 ){
       // one is saving a freshly added record so add in array
       this.recs.unshift({}) ;
-      nx = 1 ;
+      nx = 0 ;
      this.rec.id = this.getmxid();  
     } else {
        nx = this.sel
@@ -152,10 +152,11 @@ export default {
    console.log("Editing..")
    this.dsblflg = 0 ;
    this.opbtflg = 1 ;
+   
   },
   delrec: function(aid){
    console.log("Deleting..")
-   tmprec = recs[aid];
+   tmprec = this.recs[aid];
    if (tmprec.id != -1){
      // delete from the database also
      Axios.delete('/addr/api/del/'+tmprec.id.toString)
@@ -168,10 +169,12 @@ export default {
      this.recs.splice(aid)
    },
   putrec :  function(tmprec){
-     console.log(' data ', tmprec);
+     console.log('putrec data ', tmprec);
      if(tmprec.id == -1){
+        console.log(" Adding new rec ");
        let newid = this.getmxid()+1 ;
        tmprec.id = newid ;
+       console.log(" Rec Id " + tmprec.id.toString);
     Axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
      console.log("Added record ",aid," Successfully ")
     }).catch((err)=>{
