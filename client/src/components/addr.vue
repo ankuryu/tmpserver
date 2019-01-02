@@ -79,6 +79,8 @@ export default {
       Axios.get('http://localhost:3000/addr/api/lst10')
       .then((resp)=>{
         this.recs = resp.data ;
+        this.sel = 1 ;
+        this.trsffrar(1) ;
        })
       .catch((err)=>{
         console.log( err );
@@ -103,9 +105,13 @@ export default {
     if (idx == -1 ){
       // one is saving a freshly added record so add in array
       this.recs.unshift({}) ;
-      nx = this.recs.length - 1 ;
+      nx = 1 ;
+     this.rec.id = this.getmxid();  
+    } else {
+       nx = this.sel
     }
     this.trsftoar(nx)   
+    this.putrec(this.rec);
 //  console.log(nx,this.recs,this.rec);
     this.dsblflg = 1 ;
     this.opbtflg = 0 ;
@@ -159,11 +165,12 @@ export default {
      })
    } 
      // now delete from the array 
+     this.recs.splice(aid)
    },
   putrec :  function(tmprec){
      console.log(' data ', tmprec);
      if(tmprec.id == -1){
-       let nwid = this.getmxid()+1 ;
+       let newid = this.getmxid()+1 ;
        tmprec.id = newid ;
     Axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
      console.log("Added record ",aid," Successfully ")
