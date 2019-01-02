@@ -154,13 +154,15 @@ export default {
    this.opbtflg = 1 ;
    
   },
-  delrec: function(aid){
+  delrec: function(){
+    let aid = this.sel ;
    console.log("Deleting..")
-   tmprec = this.recs[aid];
+   let tmprec = this.recs[aid];
+   console.log(" tmprec ",this.recs,aid)
    if (tmprec.id != -1){
      // delete from the database also
-     Axios.delete('/addr/api/del/'+tmprec.id.toString)
-     .then(()=>{console.log("Deleted Rec Id "+tmprec.id.toString)})
+     Axios.delete('http://localhost:3000/addr/api/del/'+tmprec.id.toString())
+     .then(()=>{console.log("Deleted Rec Id "+tmprec.id.toString())})
      .catch((err)=>{
        console.log(err)
      })
@@ -174,14 +176,14 @@ export default {
         console.log(" Adding new rec ");
        let newid = this.getmxid()+1 ;
        tmprec.id = newid ;
-       console.log(" Rec Id " + tmprec.id.toString);
+       console.log(" Rec Id " + tmprec.id.toString() );
     Axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
      console.log("Added record ",aid," Successfully ")
     }).catch((err)=>{
     console.log("Error in inserting Rec @ ",aid,err);
     }) // catch loop ends here
      }else {
-       let sid = tmprec.id.toString ;
+       let sid = tmprec.id.toString() ;
        Axios.put('http://localhost:3000/addr/api/upd.json/'+sid,tmprec)
        .then(()=>{
 

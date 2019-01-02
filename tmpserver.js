@@ -179,14 +179,17 @@ app.delete('/addr/api/del/:id',(req,res)=> {
    if(err){
 	   console.log(err);
    }
-	console.log("Connected to the in Sqlite database");
+	console.log("Delete path and Connected to the in Sqlite database");
  });
-  let id = req.params.id ;
+	let id = req.params.id ;
+	console.log( "req obj", req);
+	console.log(" Id for deleting ",id)
 	let  sqldel= " delete from tbl1 where id == $id ; " ;
 			db.run(sqldel,{"$id":id},(err)=> {
 		if(err) {
 			return console.error(err.message);
 		}
+		console.log( "Deleted rec ",id)
 		  res.end();
 	  }).close();
   });
