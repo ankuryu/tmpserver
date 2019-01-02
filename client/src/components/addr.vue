@@ -101,7 +101,8 @@ export default {
     let idx = this.rec.id ;
     let  nx = 0 ;
     if (idx == -1 ){
-      this.recs.push({}) ;
+      // one is saving a freshly added record so add in array
+      this.recs.unshift({}) ;
       nx = this.recs.length - 1 ;
     }
     this.trsftoar(nx)   
@@ -149,12 +150,16 @@ export default {
   delrec: function(aid){
    console.log("Deleting..")
    tmprec = recs[aid];
-   if (tmprec.id == -1){
-     // simply delete in array
-   } else {
-     // delete it from the database also
-   }
-  },
+   if (tmprec.id != -1){
+     // delete from the database also
+     Axios.delete('/addr/api/del/'+tmprec.id.toString)
+     .then(()=>{console.log("Deleted Rec Id "+tmprec.id.toString)})
+     .catch((err)=>{
+       console.log(err)
+     })
+   } 
+     // now delete from the array 
+   },
   putrec :  function(tmprec){
      console.log(' data ', tmprec);
      if(tmprec.id == -1){
