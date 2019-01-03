@@ -34,8 +34,9 @@ app.listen(3000 , function() {
  pr1 = [] ; // pr1 is the array to contain parameters
 
 
-app.put('/addr/api/upd/',(req,res)=>{
-  let pth = './db/tmp.db3'
+app.put('/addr/api/upd/:id',(req,res)=>{
+	let pth = './db/tmp.db3'
+	console.log("In Update path & id ",id)
 	let db = new sqlite3.Database(pth,(err)=>{
 		if(err){
 			console.log(err);	
@@ -66,6 +67,7 @@ app.put('/addr/api/upd/',(req,res)=>{
 })
 
 app.get('/addr/api/mxid',(req,res)=>{
+	console.log("in path mxid")
   let pth = './db/tmp.db3'
 	let db = new sqlite3.Database(pth,(err)=>{
 		if(err){
@@ -77,6 +79,7 @@ app.get('/addr/api/mxid',(req,res)=>{
 		if(err) {
 			return console.error(err.message);
 		}
+		console.log("Return Value ",row)
 		res.json(row);
 		  res.end();
 	  }).close((err)=>{

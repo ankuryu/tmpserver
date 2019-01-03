@@ -157,7 +157,6 @@ export default {
    console.log("Editing..")
    this.dsblflg = 0 ;
    this.opbtflg = 1 ;
-   
   },
   delrec: function(){
     let aid = this.sel ;
@@ -175,11 +174,12 @@ export default {
      // now delete from the array 
      this.recs.splice(aid)
    },
-  putrec :  function(tmprec){
+  putrec :  async function(tmprec){
+    try {
      console.log('putrec data ', tmprec);
      if(tmprec.id == -1){
         console.log(" Adding new rec ");
-       let newid = this.getmxid()+1 ;
+       let newid =  await this.getmxid()+1 ;
        tmprec.id = newid ;
        console.log(" Rec Id " + tmprec.id.toString() );
     Axios.post('http://localhost:3000/addr/api/add.json',tmprec).then((resp)=>{
@@ -189,7 +189,7 @@ export default {
     }) // catch loop ends here
      }else {
        let sid = tmprec.id.toString() ;
-       Axios.put('http://localhost:3000/addr/api/upd.json/'+sid,tmprec)
+       Axios.put('http://localhost:3000/addr/api/upd/'+sid,tmprec)
        .then(()=>{
 
        })
@@ -197,7 +197,10 @@ export default {
          console.log("Error in updating Record @",sid)
        })
      }
- 
+    } 
+    catch(err){
+      console.log(err)
+    }
   },
   getmxid: function(){
     return new Promise((resolve,reject)=>{
@@ -205,7 +208,7 @@ export default {
    console.log("Getting Max ID")
     Axios.get('http://localhost:3000/addr/api/mxid')
     .then((res)=>{console.log("Max Id",res.mxid)
-      resolve(res.mxid) ;
+      resolve(res.data.mxid) ;
       })
     .catch((err)=>{console.log("Error in Max id" ,err) 
       reject(err); 
