@@ -108,7 +108,7 @@ export default {
       // one is saving a freshly added record so add in array
       this.recs.unshift({}) ;
       nx = 0 ;
-     this.rec.id = await this.getmxid();  
+     this.rec.id = await this.getmxid()+ 1 ;  
     } else {
        nx = this.sel
     }
