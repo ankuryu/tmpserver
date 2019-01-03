@@ -36,7 +36,7 @@ app.listen(3000 , function() {
 
 app.put('/addr/api/upd/:id',(req,res)=>{
 	let pth = './db/tmp.db3'
-	console.log("In Update path & id ",id)
+	console.log("In Update path & id ",req.params.id)
 	let db = new sqlite3.Database(pth,(err)=>{
 		if(err){
 			console.log(err);	

@@ -207,7 +207,7 @@ export default {
     // gets the maximum id in the database to fill in the next id into the fresh record
    console.log("Getting Max ID")
     Axios.get('http://localhost:3000/addr/api/mxid')
-    .then((res)=>{console.log("Max Id",res.mxid)
+    .then((res)=>{console.log("Max Id",res.data.mxid)
       resolve(res.data.mxid) ;
       })
     .catch((err)=>{console.log("Error in Max id" ,err) 
