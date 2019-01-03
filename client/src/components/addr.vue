@@ -98,15 +98,17 @@ export default {
    ptr.pin = "";
    ptr.country = "";
   },
-  savit:function(){
+  savit: async function(){
   //debugger ;
+  try {
+    
     let idx = this.rec.id ;
     let  nx = 0 ;
     if (idx == -1 ){
       // one is saving a freshly added record so add in array
       this.recs.unshift({}) ;
       nx = 0 ;
-     this.rec.id = this.getmxid();  
+     this.rec.id = await this.getmxid();  
     } else {
        nx = this.sel
     }
@@ -115,6 +117,9 @@ export default {
 //  console.log(nx,this.recs,this.rec);
     this.dsblflg = 1 ;
     this.opbtflg = 0 ;
+    } catch (error) {
+
+    }
   },
   cancit:function(){},
   trsftoar: function(idx){
@@ -195,13 +200,17 @@ export default {
  
   },
   getmxid: function(){
+    return new Promise((resolve,reject)=>{
     // gets the maximum id in the database to fill in the next id into the fresh record
    console.log("Getting Max ID")
     Axios.get('http://localhost:3000/addr/api/mxid')
     .then((res)=>{console.log("Max Id",res.mxid)
-      return res.mxid ;
+      resolve(res.mxid) ;
       })
-    .catch((err)=>{console.log("Error in Max id" ,err) })
+    .catch((err)=>{console.log("Error in Max id" ,err) 
+      reject(err); 
+     })
+    })
   },
   getrec : function(rid){
     // rid is the record id as integer
