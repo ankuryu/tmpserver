@@ -108,7 +108,7 @@ export default {
       // one is saving a freshly added record so add in array
       this.recs.unshift({}) ;
       nx = 0 ;
-     this.rec.id = await this.getmxid()+ 1 ;  
+     //this.rec.id = await this.getmxid()+ 1 ;  
     } else {
        nx = this.sel
     }
@@ -121,7 +121,17 @@ export default {
 
     }
   },
-  cancit:function(){},
+  cancit:function(){
+    // cancel it
+    let nx = 0 ;
+    if(this.rec.id != -1 ){
+      nx = this.sel
+    } 
+    this.trsffrar(nx)
+    this.sel = nx ;
+    this.dsblflg = 1 ;
+    this.opbtflg = 0 ;
+  },
   trsftoar: function(idx){
    let tmp = this.recs[idx] ;
    let r = this.rec ;
@@ -172,7 +182,8 @@ export default {
      })
    } 
      // now delete from the array 
-     this.recs.splice(aid)
+     this.recs.splice(aid,1)
+     console.log("Recs after deleting  ",this.recs)
    },
   putrec :  async function(tmprec){
     try {
